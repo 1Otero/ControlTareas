@@ -12,7 +12,7 @@ var imgDefault;
 message.style.display= 'none'
 
 if(idTarea===0){
-    agregarTareas.innerHTML= `<h1> No existen tareas - Puede agregar tareas </h1>`
+    agregarTareas.innerHTML= `<h1> No existen tareas - Puede agregar </h1>`
 }
 
 function agregarTarea(){
