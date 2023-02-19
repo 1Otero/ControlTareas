@@ -11,34 +11,59 @@ var idTarea= 0
 var imgDefault;
 message.style.display= 'none'
 
-if(idTarea===0){
-    agregarTareas.innerHTML= `<h1> No existen tareas - Puede agregar </h1>`
+function pintarDatos(){
+    console.log(tareas.length)
+    console.log(tareas)
+    if(tareas.length > 0){
+        tareas.forEach(e => {
+            console.log(e)
+            agregarTareas.innerHTML= `<div class='col-md-3 card'>
+            <div>
+            <img height='150' src=${imgDefault}
+            <h2>${e.titulo}</h2>
+            <p>${e.description}</p>             
+            <input type='button' onClick='eliminarTarea(${e.id})' value="Eliminar tarea"/>
+            </div>   
+           </div>`
+        })
+    }else{
+        agregarTareas.innerHTML= `<h1> No existen tareas - Puede agregar </h1>`
+    }
 }
 
+if(idTarea===0){
+    agregarTareas.innerHTML= `<h1> No existen tareas - Puede agregar </h1>`
+}else{
+    pintarDatos()
+}
+function eliminarTarea(id){
+    tareas= tareas.filter(e => { return e.id != id})
+    console.log(tareas)
+    pintarDatos()
+}
+function pintarHtml(tituloP,descriptionP,IdElimina){
+  console.log(IdElimina)
+  return `<div class='col-md-3 card'>
+  <div>
+  <img height='150' src=${imgDefault}
+  <h2>${tituloP}</h2>
+  <p>${descriptionP}</p>             
+  <input type='button' onClick='eliminarTarea(${IdElimina})' value="Eliminar tarea"/>
+  </div>   
+ </div>`
+}
 function agregarTarea(){
     let titulo= title.value
     let descripcion= Description.value
     console.log(lengthImg + " " + titulo + " " + descripcion)
     
     if(lengthImg>=1&&titulo!=""&&descripcion!=""){
-        if(idTarea==0){
-           agregarTareas.innerHTML= `<div class='col-md-4 card'>
-            <div>
-            <img height='150' src=${imgDefault}
-            <h2>${titulo}</h2>
-            <p>${descripcion}</p>             
-            </div>   
-           </div>`
+        var idEliminar= idTarea
+        if(tareas.length==0){
+           agregarTareas.innerHTML= pintarHtml(titulo,descripcion,idEliminar)
         }else{
-            agregarTareas.innerHTML+= `<div class='col-md-4 card'>
-            <div>
-            <img height='150' src=${imgDefault}
-            <h2>${titulo}</h2>
-            <p>${descripcion}</p>             
-            </div>   
-           </div>`  
+            agregarTareas.innerHTML+= pintarHtml(titulo,descripcion,idEliminar)
         }
-        idTarea++
         tareas.push({"id":idTarea,"img": imgDefault,"titulo":titulo,"description":descripcion})
         
         message.innerHTML= `<h1>Agrego tarea</h1>`        
@@ -58,6 +83,7 @@ function agregarTarea(){
        message.innerHTML= `` 
        message.style.display= 'none'
     }, 1500)
+    idTarea++
 }
 
 imagenTaskDefault.addEventListener("change", (e) => {
