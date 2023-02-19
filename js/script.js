@@ -12,19 +12,10 @@ var imgDefault;
 message.style.display= 'none'
 
 function pintarDatos(){
-    console.log(tareas.length)
-    console.log(tareas)
     if(tareas.length > 0){
         tareas.forEach(e => {
             console.log(e)
-            agregarTareas.innerHTML= `<div class='col-md-3 card'>
-            <div>
-            <img height='150' src=${imgDefault}
-            <h2>${e.titulo}</h2>
-            <p>${e.description}</p>             
-            <input type='button' onClick='eliminarTarea(${e.id})' value="Eliminar tarea"/>
-            </div>   
-           </div>`
+            agregarTareas.innerHTML= pintarHtml(e.titulo,e.description,e.id)
         })
     }else{
         agregarTareas.innerHTML= `<h1> No existen tareas - Puede agregar </h1>`
@@ -38,16 +29,18 @@ if(idTarea===0){
 }
 function eliminarTarea(id){
     tareas= tareas.filter(e => { return e.id != id})
-    console.log(tareas)
     pintarDatos()
 }
+/*function abrirVentana(b){
+   window.open(b, "Url de archivo tarea") 
+}*/
 function pintarHtml(tituloP,descriptionP,IdElimina){
-  console.log(IdElimina)
   return `<div class='col-md-3 card'>
   <div>
-  <img height='150' src=${imgDefault}
+  <img height='150' src='${imgDefault}' alt=' Esto no es imagen pero se puede abrir ' />
   <h2>${tituloP}</h2>
   <p>${descriptionP}</p>             
+  <a href='${imgDefault}' target="_blank">IR</a>
   <input type='button' onClick='eliminarTarea(${IdElimina})' value="Eliminar tarea"/>
   </div>   
  </div>`
@@ -55,7 +48,6 @@ function pintarHtml(tituloP,descriptionP,IdElimina){
 function agregarTarea(){
     let titulo= title.value
     let descripcion= Description.value
-    console.log(lengthImg + " " + titulo + " " + descripcion)
     
     if(lengthImg>=1&&titulo!=""&&descripcion!=""){
         var idEliminar= idTarea
@@ -82,7 +74,7 @@ function agregarTarea(){
     setTimeout(() => {
        message.innerHTML= `` 
        message.style.display= 'none'
-    }, 1500)
+    }, 1000)
     idTarea++
 }
 
